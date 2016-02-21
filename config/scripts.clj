@@ -1,7 +1,7 @@
 (ns scripts)
 
 (alter-meta! *ns*
-             (fn [m] (assoc m :co-ns true :resource-type :js)))
+             (fn [m] (assoc m :resource-type :js)))
 
 (def app {:uri "scripts/app.js"})
 

@@ -25,7 +25,7 @@
      (h/import '(styles hello world)
                '(scripts polyfill-lite-min))
      (h/body
-      (h/h1 "HELLO POLYMER!")
+      (h/h1 "HELLO MIRAJ!")
       (h/div #_(iron/icon {:icon "menu"}))
       (h/div ::cards
              (miraj.paper/card {:heading "Hello, you ol' Card!"}

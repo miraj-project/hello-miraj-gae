@@ -2,22 +2,22 @@
 (def +version+ "0.1.0-SNAPSHOT")
 
 (set-env!
- :asset-paths #{"assets"}
- :resource-paths #{"resources/public" "src/main/clojure/" "src/main/config"}
- :source-paths #{"src/main/clojure" "src/main/config"}
+ :asset-paths #{"config"}
+ :resource-paths #{"resources/public" "src/main/clojure/" "config"}
+ :source-paths #{"src/main/clojure"}
  :target-path "build"
  :repositories {"clojars" "https://clojars.org/repo"
                 "maven-central" "http://mvnrepository.com"
                 "central" "http://repo1.maven.org/maven2/"}
  :dependencies   '[[org.clojure/clojure "1.8.0" :scope "provided"]
                    [boot/core "2.5.2" :scope "provided"]
+                   [mobileink/boot-bowdlerize "0.1.0-SNAPSHOT" :scope "test"]
                    [migae/boot-gae "0.1.0-SNAPSHOT" :scope "test"]
                    [miraj/boot-miraj "0.1.0-SNAPSHOT" :scope "test"]
                    [miraj/html "5.1.0-SNAPSHOT"]
                    [miraj/markup "0.1.0-SNAPSHOT"]
-                   [miraj/paper "1.2.3-SNAPSHOT"]
                    [miraj/iron "1.2.3-SNAPSHOT"]
-                   [components/greetings "0.1.0-SNAPSHOT"]
+                   ;; [components/greetings "0.1.0-SNAPSHOT"]
                    ;; [boot/core "2.5.2" :scope "provided"]
                    ;; [adzerk/boot-test "1.0.7" :scope "test"]
                    [com.google.appengine/appengine-java-sdk "1.9.32"
@@ -141,13 +141,14 @@
                :role "admin"}]})
 
 (require '[migae.boot-gae :as gae]
+         '[boot-bowdlerize :as b]
          '[boot-miraj :as mrj]
          '[boot.task.built-in :as builtin])
 
 (task-options!
- mrj/config {:root "build/exploded-app"
-             :configs {'components.greetings
-                       {:ns 'miraj.greetings :resources "miraj_components"}}}
+ ;; mrj/config {:root "build/exploded-app"
+ ;;             :configs {'components.greetings
+ ;;                       {:ns 'miraj.greetings :resources "miraj_components"}}}
  pom  {:project     +project+
        :version     +version+
        :description "Example code, boot, miraj, GAE"
