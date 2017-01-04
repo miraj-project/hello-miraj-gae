@@ -141,11 +141,24 @@
                :role "admin"}]})
 
 (require '[migae.boot-gae :as gae]
-         '[boot-bowdlerize :as b]
+         '[boot-bowdlerize :as bow]
          '[boot-miraj :as mrj]
-         '[boot.task.built-in :as builtin])
+         '[boot.task.built-in])
+
+(def configs #{'resources/styles 'bower/config-map 'polymer/config-map})
 
 (task-options!
+ gae/config-appengine {:config-syms #{'appengine/config
+                                      'appstats/config
+                                      'version/config}}
+ gae/config-webapp {:config-syms #{'appstats/config
+                                   'filters/config
+                                   'security/config
+                                   'servlets/config
+                                   'webapp/config
+                                   'version/config}}
+ bow/config {:nss configs}
+ bow/install {:nss configs}
  ;; mrj/config {:root "build/exploded-app"
  ;;             :configs {'components.greetings
  ;;                       {:ns 'miraj.greetings :resources "miraj_components"}}}
@@ -157,19 +170,19 @@
 (deftask libs
   "" []
   (comp
-   (builtin/uber :as-jars true)
-   (builtin/sift :include #{#"jar$"} :move {#"(.*jar$)" "WEB-INF/lib/$1"})
-   (builtin/target :dir #{"build"} :no-clean true)))
+   (uber :as-jars true)
+   (sift :include #{#"jar$"} :move {#"(.*jar$)" "WEB-INF/lib/$1"})
+   (target :dir #{"build"} :no-clean true)))
 
-(deftask prep
+#_(deftask prep
   "run all the boot-gae prep tasks"
   [a save bool "save aot source?"]
   (comp (gae/logging)
         (gae/config)
-        ;; (builtin/target :dir #{"build"} :no-clean true)
+        ;; (boot/target :dir #{"build"} :no-clean true)
         (gae/servlets :save save)
-        ;; (builtin/sift :include #{#"class$"} ;; retain transient clj files
+        ;; (boot/sift :include #{#"class$"} ;; retain transient clj files
         ;;               :move {#"(.*class$)" "WEB-INF/classes/$1"})
         (gae/assets :type :clj) ;; :odir "WEB-INF/classes")
-        (builtin/target :dir #{"build"}) ;; :no-clean false)
+        (boot/target :dir #{"build"}) ;; :no-clean false)
         #_(gae/run)))
